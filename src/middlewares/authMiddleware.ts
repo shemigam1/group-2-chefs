@@ -22,7 +22,6 @@ const authMiddleware = async (
       return res.status(401).json({ success: false, message: "Invalid token" });
     }
 
-    // ✅ Get user from DB using JWT payload, NOT req.body
     const user = await prisma.user.findUniqueOrThrow({
       where: { id: payload.id },
       select: {

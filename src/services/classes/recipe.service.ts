@@ -14,12 +14,11 @@ class AppError extends Error {
 }
 
 export default class RecipeService {
-  // Map input to Prisma-compatible data
   private static mapRecipeData(data: Partial<RecipeInput>) {
     const mapped: any = {
-      title: data.title ?? "", // required
+      title: data.title ?? "",
       description: data.description ?? null,
-      ingredients: data.ingredients ?? [], // arrays cannot be null
+      ingredients: data.ingredients ?? [],
       instructions: data.instructions ?? [],
       difficulty_level: data.difficulty_level ?? null,
       final_img: data.final_img ?? null,
@@ -27,7 +26,6 @@ export default class RecipeService {
       cook_time: data.cook_time ?? null,
     };
 
-    // Optional array fields: only include if defined
     if (data.cuisine_type && data.cuisine_type.length > 0)
       mapped.cuisine_type = data.cuisine_type;
     if (data.tags && data.tags.length > 0) mapped.tags = data.tags;
@@ -71,7 +69,6 @@ export default class RecipeService {
 
     const updatedData = this.mapRecipeData(data);
 
-    // Remove undefined fields so Prisma update works
     Object.keys(updatedData).forEach(
       (key) =>
         updatedData[key as keyof typeof updatedData] === undefined &&
