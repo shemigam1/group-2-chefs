@@ -23,7 +23,11 @@ const formatRecipeResponse = (recipe: IRecipeResponse): IRecipeResponse => ({
 export default class RecipeController {
   static async createRecipe(req: Request, res: Response) {
     try {
-      const recipe = await RecipeService.createRecipe(req.user.id, req.body);
+      const user = res.locals.user;
+      if (!user)
+        return res.status(401).json({ message: "User not authenticated" });
+
+      const recipe = await RecipeService.createRecipe(user.id, req.body);
       return res.status(201).json({
         message: "Recipe created successfully",
         data: formatRecipeResponse(recipe),
@@ -35,9 +39,13 @@ export default class RecipeController {
 
   static async updateRecipe(req: Request, res: Response) {
     try {
+      const user = res.locals.user;
+      if (!user)
+        return res.status(401).json({ message: "User not authenticated" });
+
       const recipe = await RecipeService.updateRecipe(
         req.params.recipeId,
-        req.user.id,
+        user.id,
         req.body
       );
       return res.status(200).json({
@@ -51,9 +59,13 @@ export default class RecipeController {
 
   static async deleteRecipe(req: Request, res: Response) {
     try {
+      const user = res.locals.user;
+      if (!user)
+        return res.status(401).json({ message: "User not authenticated" });
+
       const recipe = await RecipeService.deleteRecipe(
         req.params.recipeId,
-        req.user.id
+        user.id
       );
       return res.status(200).json({
         message: "Recipe deleted successfully",
