@@ -1,6 +1,6 @@
 import { Router } from "express";
-import RecipeController from "../controllers/receipe.controller";
-import FavoriteController from "../controllers/favorite.controller";
+import { createRecipe, updateRecipe, deleteRecipe, listRecipes, getRecipeById } from "../controllers/receipe.controller";
+import { addFavorite, removeFavorite, listFavorites } from "../controllers/favorite.controller";
 import authMiddleware from "../middlewares//authMiddleware";
 import joiMiddleware from "../middlewares/joiMiddleware";
 import {
@@ -11,6 +11,55 @@ import {
 } from "../validators/recipevalidator";
 
 const router = Router();
+
+
+router.post(
+	"/",
+	authMiddleware,
+	joiMiddleware(createRecipeSchema),
+	createRecipe
+);
+
+
+router.put(
+	"/:recipeId",
+	authMiddleware,
+	joiMiddleware(updateRecipeSchema),
+	updateRecipe
+);
+
+
+router.delete("/:recipeId", authMiddleware, deleteRecipe);
+
+// Add/Remove favorites
+router.post(
+	"/:recipeId/favorite",
+	authMiddleware,
+	addFavorite
+);
+router.delete(
+	"/:recipeId/favorite",
+	authMiddleware,
+	removeFavorite
+);
+
+
+router.get(
+	"/",
+	authMiddleware,
+	joiMiddleware(listRecipesSchema, "query"),
+	listRecipes
+);
+
+
+router.get(
+	"/:recipeId",
+	authMiddleware,
+	joiMiddleware(recipeIdParamSchema, "params"),
+	getRecipeById
+);
+
+export default router;
 
 /**
  * @swagger
@@ -67,12 +116,6 @@ const router = Router();
  *       401:
  *         description: Unauthorized
  */
-router.post(
-	"/",
-	authMiddleware,
-	joiMiddleware(createRecipeSchema),
-	RecipeController.createRecipe
-);
 
 /**
  * @swagger
@@ -132,12 +175,6 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.put(
-	"/:recipeId",
-	authMiddleware,
-	joiMiddleware(updateRecipeSchema),
-	RecipeController.updateRecipe
-);
 
 /**
  * @swagger
@@ -162,19 +199,6 @@ router.put(
  *       401:
  *         description: Unauthorized
  */
-router.delete("/:recipeId", authMiddleware, RecipeController.deleteRecipe);
-
-// Add/Remove favorites
-router.post(
-	"/:recipeId/favorite",
-	authMiddleware,
-	FavoriteController.addFavorite
-);
-router.delete(
-	"/:recipeId/favorite",
-	authMiddleware,
-	FavoriteController.removeFavorite
-);
 
 /**
  * @swagger
@@ -197,12 +221,6 @@ router.delete(
  *       200:
  *         description: Paginated list of recipes
  */
-router.get(
-	"/",
-	authMiddleware,
-	joiMiddleware(listRecipesSchema, "query"),
-	RecipeController.listRecipes
-);
 
 /**
  * @swagger
@@ -222,11 +240,3 @@ router.get(
  *       404:
  *         description: Recipe not found
  */
-router.get(
-	"/:recipeId",
-	authMiddleware,
-	joiMiddleware(recipeIdParamSchema, "params"),
-	RecipeController.getRecipeById
-);
-
-export default router;

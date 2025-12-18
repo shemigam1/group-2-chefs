@@ -4,7 +4,7 @@ import {
 	updateUserProfile,
 	deleteUserAccount,
 } from "../controllers/user.controller";
-import FavoriteController from "../controllers/favorite.controller";
+import { addFavorite, removeFavorite, listFavorites } from "../controllers/favorite.controller";
 import joiMiddleware from "../middlewares/joiMiddleware";
 import {
 	updateUserProfileValidator,
@@ -13,6 +13,38 @@ import {
 import authMiddleware from "../middlewares/authMiddleware";
 
 const userRouter = Router();
+
+
+
+userRouter.get(
+	"/:userId",
+	authMiddleware,
+	joiMiddleware(userIdParamValidator, "params"),
+	getUserProfile
+);
+
+userRouter.get(
+	"/:userId/favorites",
+	authMiddleware,
+	joiMiddleware(userIdParamValidator, "params"),
+	listFavorites
+);
+
+userRouter.put(
+	"/:userId",
+	authMiddleware,
+	joiMiddleware(userIdParamValidator, "params"),
+	joiMiddleware(updateUserProfileValidator, "body"),
+	updateUserProfile
+);
+
+userRouter.delete(
+	"/:userId",
+	authMiddleware,
+	joiMiddleware(userIdParamValidator, "params"),
+	deleteUserAccount
+);
+export default userRouter;
 
 /**
  * @swagger
@@ -42,32 +74,3 @@ const userRouter = Router();
  *       500:
  *         description: Server error
  */
-userRouter.get(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	getUserProfile
-);
-
-userRouter.get(
-	"/:userId/favorites",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	FavoriteController.listFavorites
-);
-
-userRouter.put(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	joiMiddleware(updateUserProfileValidator, "body"),
-	updateUserProfile
-);
-
-userRouter.delete(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	deleteUserAccount
-);
-export default userRouter;
