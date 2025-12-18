@@ -1,0 +1,4 @@
+FREEMAN
+GET /api/users/:userId/favorites - Get user favorite recipes
+POST /api/recipes/:recipeId/favorite - Add recipe to favorites
+DELETE /api/recipes/:recipeId/favorite - Remove recipe from favorites

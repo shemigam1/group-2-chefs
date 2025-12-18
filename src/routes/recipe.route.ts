@@ -1,5 +1,6 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import RecipeController from "../controllers/receipe.controller";
+import FavoriteController from "../controllers/favorite.controller";
 import authMiddleware from "../middlewares//authMiddleware";
 import joiMiddleware from "../middlewares/joiMiddleware";
 import {
@@ -160,5 +161,8 @@ router.put(
  *         description: Unauthorized
  */
 router.delete("/:recipeId", authMiddleware, RecipeController.deleteRecipe);
+
+// Add/Remove favorites
+router.post("/:recipeId/favorite", authMiddleware, FavoriteController.addFavorite);
 
 export default router;
