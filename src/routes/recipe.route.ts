@@ -1,12 +1,13 @@
 import { Router } from "express";
 import RecipeController from "../controllers/receipe.controller";
+import FavoriteController from "../controllers/favorite.controller";
 import authMiddleware from "../middlewares//authMiddleware";
 import joiMiddleware from "../middlewares/joiMiddleware";
 import {
-  createRecipeSchema,
-  updateRecipeSchema,
-  listRecipesSchema,
-  recipeIdParamSchema,
+	createRecipeSchema,
+	updateRecipeSchema,
+	listRecipesSchema,
+	recipeIdParamSchema,
 } from "../validators/recipevalidator";
 
 const router = Router();
@@ -67,10 +68,10 @@ const router = Router();
  *         description: Unauthorized
  */
 router.post(
-  "/",
-  authMiddleware,
-  joiMiddleware(createRecipeSchema),
-  RecipeController.createRecipe
+	"/",
+	authMiddleware,
+	joiMiddleware(createRecipeSchema),
+	RecipeController.createRecipe
 );
 
 /**
@@ -132,10 +133,10 @@ router.post(
  *         description: Unauthorized
  */
 router.put(
-  "/:recipeId",
-  authMiddleware,
-  joiMiddleware(updateRecipeSchema),
-  RecipeController.updateRecipe
+	"/:recipeId",
+	authMiddleware,
+	joiMiddleware(updateRecipeSchema),
+	RecipeController.updateRecipe
 );
 
 /**
@@ -163,6 +164,18 @@ router.put(
  */
 router.delete("/:recipeId", authMiddleware, RecipeController.deleteRecipe);
 
+// Add/Remove favorites
+router.post(
+	"/:recipeId/favorite",
+	authMiddleware,
+	FavoriteController.addFavorite
+);
+router.delete(
+	"/:recipeId/favorite",
+	authMiddleware,
+	FavoriteController.removeFavorite
+);
+
 /**
  * @swagger
  * /recipes:
@@ -184,7 +197,12 @@ router.delete("/:recipeId", authMiddleware, RecipeController.deleteRecipe);
  *       200:
  *         description: Paginated list of recipes
  */
-router.get("/", authMiddleware, joiMiddleware(listRecipesSchema, "query"), RecipeController.listRecipes);
+router.get(
+	"/",
+	authMiddleware,
+	joiMiddleware(listRecipesSchema, "query"),
+	RecipeController.listRecipes
+);
 
 /**
  * @swagger
@@ -204,6 +222,11 @@ router.get("/", authMiddleware, joiMiddleware(listRecipesSchema, "query"), Recip
  *       404:
  *         description: Recipe not found
  */
-router.get("/:recipeId", authMiddleware, joiMiddleware(recipeIdParamSchema, "params"), RecipeController.getRecipeById);
+router.get(
+	"/:recipeId",
+	authMiddleware,
+	joiMiddleware(recipeIdParamSchema, "params"),
+	RecipeController.getRecipeById
+);
 
 export default router;
