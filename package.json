@@ -4,12 +4,13 @@
   "description": "",
   "type": "module",
   "main": "src/main.ts",
-  "scripts": {
-    "start": "NODE_ENV=production tsx src/main.ts",
-    "dev": "tsx watch src/main.ts",
-    "migrate": "prisma migrate dev",
-    "setup": "npm install && npx prisma generate && npx prisma migrate dev"
-  },
+"scripts": {
+  "start": "NODE_ENV=production tsx src/main.ts",
+  "dev": "nodemon --exec tsx src/main.ts",
+  "migrate": "prisma migrate dev",
+  "setup": "pnpm install && pnpm prisma generate && pnpm prisma migrate dev"
+}
+,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shemigam1/group-2-chefs.git"
@@ -26,6 +27,7 @@
     "@types/pg": "^8.16.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.11",
     "prisma": "^7.1.0",
     "typescript": "^5.9.3"
   },
