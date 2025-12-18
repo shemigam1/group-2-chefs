@@ -240,3 +240,51 @@ export default router;
  *       404:
  *         description: Recipe not found
  */
+
+/**
+ * @swagger
+ * /recipes/{recipeId}/favorite:
+ *   post:
+ *     summary: Add recipe to favorites
+ *     tags: [Recipes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: recipeId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the recipe to favorite
+ *     responses:
+ *       200:
+ *         description: Recipe added to favorites
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Recipe not found
+ */
+
+/**
+ * @swagger
+ * /recipes/{recipeId}/favorite:
+ *   delete:
+ *     summary: Remove recipe from favorites
+ *     tags: [Recipes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: recipeId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the recipe to unfavorite
+ *     responses:
+ *       200:
+ *         description: Recipe removed from favorites
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Recipe not found
+ */

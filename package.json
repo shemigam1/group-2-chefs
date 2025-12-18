@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/main.ts",
 "scripts": {
-  "start": "NODE_ENV=production tsx src/main.ts",
+  "start": "tsx src/main.ts",
   "dev": "nodemon --exec tsx src/main.ts",
   "migrate": "prisma migrate dev",
   "setup": "pnpm install && pnpm prisma generate && pnpm prisma migrate dev"
