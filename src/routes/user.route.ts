@@ -1,48 +1,51 @@
 import { Router } from "express";
 import {
-	getUserProfile,
-	updateUserProfile,
-	deleteUserAccount,
+  getUserProfile,
+  updateUserProfile,
+  deleteUserAccount,
 } from "../controllers/user.controller";
-import { addFavorite, removeFavorite, listFavorites } from "../controllers/favorite.controller";
+import {
+  addFavorite,
+  removeFavorite,
+  listFavorites,
+} from "../controllers/favorite.controller";
 import joiMiddleware from "../middlewares/joiMiddleware";
 import {
-	updateUserProfileValidator,
-	userIdParamValidator,
+  updateUserProfileValidator,
+  userIdParamValidator,
+  usernameParamValidator,
 } from "../validators/user";
 import authMiddleware from "../middlewares/authMiddleware";
 
 const userRouter = Router();
 
-
-
 userRouter.get(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	getUserProfile
+  "/:username",
+  //   authMiddleware,
+  joiMiddleware(usernameParamValidator, "params"),
+  getUserProfile
 );
 
 userRouter.get(
-	"/:userId/favorites",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	listFavorites
+  "/:userId/favorites",
+  authMiddleware,
+  joiMiddleware(userIdParamValidator, "params"),
+  listFavorites
 );
 
 userRouter.put(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	joiMiddleware(updateUserProfileValidator, "body"),
-	updateUserProfile
+  "/:userId",
+  authMiddleware,
+  joiMiddleware(userIdParamValidator, "params"),
+  joiMiddleware(updateUserProfileValidator, "body"),
+  updateUserProfile
 );
 
 userRouter.delete(
-	"/:userId",
-	authMiddleware,
-	joiMiddleware(userIdParamValidator, "params"),
-	deleteUserAccount
+  "/:userId",
+  authMiddleware,
+  joiMiddleware(userIdParamValidator, "params"),
+  deleteUserAccount
 );
 export default userRouter;
 

@@ -3,15 +3,13 @@ import joiMiddleware from "../middlewares/joiMiddleware";
 import { loginValidator, signupValidator } from "../validators/auth";
 import { signup, login } from "../controllers/auth.controller";
 
+const authRouter = Router();
 
-const authRouter = Router()
+authRouter.post("/signup", joiMiddleware(signupValidator), signup);
 
+authRouter.post("/login", joiMiddleware(loginValidator), login);
 
-authRouter.post("/signup", joiMiddleware(signupValidator), signup)
-
-authRouter.post("/login", joiMiddleware(loginValidator), login)
-
-export default authRouter
+export default authRouter;
 
 /**
  * @swagger
@@ -59,10 +57,10 @@ export default authRouter
  *           schema:
  *             type: object
  *             required:
- *               - email
+ *               - username
  *               - password
  *             properties:
- *               email:
+ *               username:
  *                 type: string
  *               password:
  *                 type: string

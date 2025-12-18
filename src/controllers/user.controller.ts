@@ -3,9 +3,9 @@ import { ResultFunction } from "../helpers/utils";
 import User from "../services/classes/user.service";
 
 export const getUserProfile = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const { username } = req.params;
 
-  const user = await new User().findUserProfileById(userId);
+  const user = await new User().findUserProfileByUsername(username);
 
   if (!user) {
     const data = ResultFunction(false, "User not found", 404, null);
@@ -44,10 +44,10 @@ export const deleteUserAccount = async (req: Request, res: Response) => {
   const user = await new User().softDeleteUserById(userId);
 
   if (!user) {
-    const data = ResultFunction( false, "user delete failed", 400, null);
+    const data = ResultFunction(false, "user delete failed", 400, null);
     return res.status(data.code).json(data);
   }
 
-  const data = ResultFunction( true, "user account deleted", 200, user);
+  const data = ResultFunction(true, "user account deleted", 200, user);
   return res.status(data.code).json(data);
-}
+};

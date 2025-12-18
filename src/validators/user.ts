@@ -4,6 +4,10 @@ export const userIdParamValidator = Joi.object({
   userId: Joi.string().uuid().required(),
 });
 
+export const usernameParamValidator = Joi.object({
+  username: Joi.string().min(3).required(),
+});
+
 export const updateUserProfileValidator = Joi.object({
   username: Joi.string().alphanum().min(3).required(),
   email: Joi.string().email().required(),
