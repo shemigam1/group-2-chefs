@@ -58,13 +58,13 @@ export default userRouter;
 
 /**
  * @swagger
- * /users/{userId}:
+ * /users/{username}:
  *   get:
  *     summary: Get user profile
  *     tags: [Users]
  *     parameters:
  *       - in: path
- *         name: userId
+ *         name: username
  *         required: true
  *         schema:
  *           type: string
