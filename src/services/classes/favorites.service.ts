@@ -9,7 +9,7 @@ class AppError extends Error {
 }
 
 export default class FavoritesService {
-  static async addFavorite(userId: string, recipeId: string) {
+  public async addFavorite(userId: string, recipeId: string) {
     const recipe = await prisma.recipe.findUnique({ where: { id: recipeId } });
 
     if (recipe == null || recipe.is_deleted) {
@@ -37,7 +37,7 @@ export default class FavoritesService {
     };
   }
 
-  static async removeFavorite(userId: string, recipeId: string) {
+  public async removeFavorite(userId: string, recipeId: string) {
     const existing = await prisma.favouriteRecipe.findUnique({
       where: { userId_recipeId: { userId, recipeId } },
     });
@@ -59,7 +59,7 @@ export default class FavoritesService {
     };
   }
 
-  static async listFavorites(userId: string, page = 1, limit = 10) {
+  public async listFavorites(userId: string, page = 1, limit = 10) {
     const take = Math.max(1, Math.min(100, Number(limit || 10)));
     const pageNum = Math.max(1, Number(page || 1));
     const skip = (pageNum - 1) * take;

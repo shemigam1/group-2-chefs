@@ -33,13 +33,13 @@ export default class RecipeService {
     return mapped;
   }
 
-  static async createRecipe(
+  public async createRecipe(
     userId: string,
     data: RecipeInput
   ): Promise<RecipeResponse> {
     if (!data.title) throw new AppError("Title is required", 400);
 
-    const recipeData = this.mapRecipeData(data);
+    const recipeData = RecipeService.mapRecipeData(data);
 
     const recipe = await prisma.recipe.create({
       data: {
@@ -55,7 +55,7 @@ export default class RecipeService {
     };
   }
 
-  static async updateRecipe(
+  public async updateRecipe(
     recipeId: string,
     userId: string,
     data: RecipeUpdate
@@ -67,7 +67,7 @@ export default class RecipeService {
     if (recipe.userId !== userId)
       throw new AppError("You are not allowed to update this recipe", 403);
 
-    const updatedData = this.mapRecipeData(data);
+    const updatedData = RecipeService.mapRecipeData(data);
 
     Object.keys(updatedData).forEach(
       (key) =>
@@ -87,7 +87,7 @@ export default class RecipeService {
     };
   }
 
-  static async deleteRecipe(
+  public async deleteRecipe(
     recipeId: string,
     userId: string
   ): Promise<RecipeResponse> {

@@ -4,14 +4,21 @@ import { loginValidator, signupValidator } from "../validators/auth";
 import { signup, login } from "../controllers/auth.controller";
 
 
+const authRouter = Router()
+
+
+authRouter.post("/signup", joiMiddleware(signupValidator), signup)
+
+authRouter.post("/login", joiMiddleware(loginValidator), login)
+
+export default authRouter
+
 /**
  * @swagger
  * tags:
  *   name: Auth
  *   description: Authentication management
  */
-
-const authRouter = Router()
 
 /**
  * @swagger
@@ -65,8 +72,3 @@ const authRouter = Router()
  *       401:
  *         description: Invalid credentials
  */
-authRouter.post("/signup", joiMiddleware(signupValidator), signup)
-
-authRouter.post("/login", joiMiddleware(loginValidator), login)
-
-export default authRouter
