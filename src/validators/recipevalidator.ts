@@ -17,3 +17,15 @@ export const updateRecipeSchema = createRecipeSchema.fork(
   Object.keys(createRecipeSchema.describe().keys),
   (field) => field.optional()
 );
+
+export const listRecipesSchema = Joi.object({
+  page: Joi.number().integer().min(1).default(1).optional(),
+  limit: Joi.number().integer().min(1).max(100).default(20).optional(),
+  cuisine_type: Joi.string().trim().optional(),
+  difficulty_level: Joi.string().trim().optional(),
+  tags: Joi.string().trim().optional(),
+});
+
+export const recipeIdParamSchema = Joi.object({
+  recipeId: Joi.string().uuid().required(),
+});

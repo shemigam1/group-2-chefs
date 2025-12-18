@@ -16,6 +16,12 @@
 [31m[1m   9 	try {[22m[39m
 [31m[1m→ 10 		return prisma.user.findUnique([22m[39m
 [31m[1mThe table `public.User` does not exist in the current database.[22m[39m
+[31m[1m2025-12-17 20:27:53 ERROR:    [POST /api/v1/auth/signup] "id" is not allowed[22m[39m
+[31m[1m2025-12-17 20:31:19 ERROR:    [POST /api/v1/auth/login] "email" is not allowed[22m[39m
+[31m[1m2025-12-17 20:31:37 ERROR:    [POST /api/v1/auth/login] "email" is not allowed[22m[39m
+[31m[1m2025-12-17 20:31:50 ERROR:    [POST /api/v1/auth/login] "email" is not allowed[22m[39m
+[31m[1m2025-12-17 20:49:49 ERROR:    [GET /api/v1/users/5e8153ee-b5b0-4bdb-935e-c48989ee5cde] Cannot read properties of undefined (reading 'id')[22m[39m
+[31m[1m2025-12-17 21:01:00 ERROR:    [POST /api/v1/auth/login] "email" is not allowed[22m[39m
 [31m[1m2025-12-17 12:07:49 ERROR:    [POST /api/v1/auth/signup] Cannot read properties of undefined (reading 'username')[22m[39m
 [31m[1m2025-12-17 12:09:54 ERROR:    [POST /api/v1/auth/signup] "bio" is not allowed[22m[39m
 [31m[1m2025-12-17 12:10:35 ERROR:    [POST /api/v1/auth/login] "email" is not allowed[22m[39m
@@ -34,3 +40,6 @@
 [31m[1m   9 	try {[22m[39m
 [31m[1m→ 10 		return prisma.user.findUnique([22m[39m
 [31m[1mServer has closed the connection.[22m[39m
+[31m[1m2025-12-17 15:03:53 ERROR:    [GET /api/v1/recipes/] "title" is not allowed[22m[39m
+[31m[1m2025-12-17 15:04:47 ERROR:    [GET /api/v1/recipes/] "title" is not allowed[22m[39m
+[31m[1m2025-12-17 15:04:51 ERROR:    [GET /api/v1/recipes] "title" is not allowed[22m[39m

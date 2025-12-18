@@ -3,12 +3,14 @@ import { ResultFunction } from "../helpers/utils";
 // import { ReturnStatus } from "../types/generic";
 // import authMiddleWare from "../middlewares/authMiddleware";
 import authRouter from "./auth.route";
+import userRouter from "./user.route";
 import recipeRouter from "./recipe.route";
 
 
 const apiRouter = Router();
 
 apiRouter.use("/auth", authRouter);
+apiRouter.use("/users", userRouter);
 // recipe routes
 apiRouter.use("/recipes", recipeRouter);
 

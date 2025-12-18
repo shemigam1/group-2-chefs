@@ -1,100 +1,63 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+import { ResultFunction, verifyJwt } from "../helpers/utils";
 import { prisma } from "../database/conn";
-import { verifyJwt } from "../helpers/utils";
+import { JwtPayload } from "jsonwebtoken";
 
-const authMiddleware = async (
+const authMiddleWare = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const authorization = req.headers.authorization;
-    if (!authorization?.startsWith("Bearer ")) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid or missing token" });
-    }
+  // extract auth header
+  const authorization = req.headers.authorization;
+  const response = ResultFunction(
+    false,
+    "invalid or missing token",
+    401,
+    null
+  );
 
-    const token = authorization.split(" ")[1];
-    const payload = verifyJwt(token) as { id: string };
-
-    if (!payload?.id) {
-      return res.status(401).json({ success: false, message: "Invalid token" });
-    }
-
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { id: payload.id },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        profile_pic: true,
-        bio: true,
-        cooking_skill_level: true,
-      },
-    });
-
-    res.locals.user = { ...user, token };
-    next();
-  } catch (error: any) {
-    console.error("Auth Middleware Error:", error);
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+  if (!authorization) {
+    return res.status(response.code).json(response);
   }
+
+  // check if token is bearer token
+
+  if (authorization.startsWith("Bearer ") === false) {
+    return res.status(response.code).json(response);
+  }
+
+  const token = authorization.split(" ")[1];
+  // extract jwt token
+  if (!token) {
+    return res.status(response.code).json(response);
+  }
+
+  // verify jwt token
+  const payload = verifyJwt(token);
+  if (payload instanceof Error) {
+    return res.status(response.code).json(response);
+  }
+
+  const payloadId = (payload as JwtPayload).id;
+  const id = payloadId || req.params.userId;
+  if (!id) {
+    return res.status(response.code).json(response);
+  }
+  // // find user and add to res object
+  const data = await prisma.user.findFirst({ where: { id, is_deleted: false } });
+  if (!data) {
+    return res.status(response.code).json(response);
+  }
+  const user = {
+    ...data,
+    token,
+  };
+  // console.log(user);
+
+  res.locals.user = user;
+
+  next();
 };
 
-export default authMiddleware;
-
-// import { NextFunction, Request, Response } from "express";
-// import { ResultFunction, verifyJwt } from "../helpers/utils";
-// import { prisma } from "../database/conn";
-
-// const authMiddleware = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const authorization = req.headers.authorization;
-
-//     if (!authorization || !authorization.startsWith("Bearer ")) {
-//       const response = ResultFunction(
-//         false,
-//         "Invalid or missing token",
-//         401,
-//         null
-//       );
-//       return res.status(response.code).json(response);
-//     }
-
-//     const token = authorization.split(" ")[1];
-
-//     // verify JWT token; if invalid, verifyJwt should throw
-//     const payload = verifyJwt(token) as { id: string };
-
-//     if (!payload || !payload.id) {
-//       const response = ResultFunction(false, "Invalid token", 401, null);
-//       return res.status(response.code).json(response);
-//     }
-
-//     const user = await prisma.user.findUniqueOrThrow({
-//       where: { id: payload.id },
-//       select: {
-//         id: true,
-//         username: true,
-//         email: true,
-//         profile_pic: true,
-//         bio: true,
-//         cooking_skill_level: true,
-//       },
-//     });
-
-//     res.locals.user = { ...user, token };
-//     next();
-//   } catch (error: any) {
-//     console.error("Auth Middleware Error:", error);
-//     const response = ResultFunction(false, "Unauthorized", 401, null);
-//     return res.status(response.code).json(response);
-//   }
-// };
-
-// export default authMiddleware;
+export default authMiddleWare;

@@ -1,4 +1,4 @@
-import jwt, { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "./config";
 
 export const ResultFunction = <T>(
@@ -30,6 +30,6 @@ export const verifyJwt = (token: string) => {
     const verify = jwt.verify(token, config.JWT_SECRET) as JwtPayload;
     return verify;
   } catch (error: any) {
-    return error as JsonWebTokenError;
+    return error as Error;
   }
 };
