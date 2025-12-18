@@ -25,3 +25,12 @@
 [31m[1m2025-12-17 13:16:22 ERROR:    [POST /api/v1/recipes] Invalid input data. Please check your request.[22m[39m
 [31m[1m2025-12-17 13:36:26 ERROR:    [POST /api/v1/recipes] "final_img" must be a valid uri[22m[39m
 [31m[1m2025-12-18 07:26:03 ERROR:    [POST /api/v1/auth/signup] "bio" is not allowed[22m[39m
+[31m[1m2025-12-18 10:27:30 ERROR:    [POST /api/v1/auth/signup] [22m[39m
+[31m[1mInvalid `prisma.user.findUnique()` invocation in[22m[39m
+[31m[1mC:\Users\hp\Desktop\group-2-chefs\src\services\classes\user.service.ts:10:23[22m[39m
+
+[31m[1m   7 private readonly logger = new Logger().logger;[22m[39m
+[31m[1m   8 public async findExistingUser(username: string) {[22m[39m
+[31m[1m   9 	try {[22m[39m
+[31m[1m→ 10 		return prisma.user.findUnique([22m[39m
+[31m[1mServer has closed the connection.[22m[39m

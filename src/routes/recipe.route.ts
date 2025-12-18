@@ -1,4 +1,4 @@
-﻿import { Router } from "express";
+import { Router } from "express";
 import RecipeController from "../controllers/receipe.controller";
 import FavoriteController from "../controllers/favorite.controller";
 import authMiddleware from "../middlewares//authMiddleware";
@@ -164,5 +164,6 @@ router.delete("/:recipeId", authMiddleware, RecipeController.deleteRecipe);
 
 // Add/Remove favorites
 router.post("/:recipeId/favorite", authMiddleware, FavoriteController.addFavorite);
+router.delete("/:recipeId/favorite", authMiddleware, FavoriteController.removeFavorite);
 
 export default router;
