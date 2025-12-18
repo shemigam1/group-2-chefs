@@ -3,7 +3,7 @@ import cors from "cors";
 import apiRouter from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 import config from "./helpers/config";
-
+import reviewRouter from "./routes/review.route";
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './helpers/swagger_config';
 
@@ -14,7 +14,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use("/api", reviewRouter);
 // Swagger Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

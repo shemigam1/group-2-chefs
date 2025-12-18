@@ -68,27 +68,27 @@ model FavouriteRecipe {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, recipeId])
+  @@unique([userId, recipeId], name: "userId_recipeId")
 }
 
 model RecipeReview {
   id            String   @id @default(uuid())
   userId        String
   recipeId      String
-  rating        Int      @db.SmallInt  // 1-5 stars
-  comment       String?  @db.VarChar(500)  // Max 500 chars, optional
-  helpful_count Int      @default(0)  // For future "helpful" votes
-  is_flagged    Boolean  @default(false)  // For moderation
-  flag_reason   String?  @db.VarChar  // Why it was flagged
+  rating        Int      @db.SmallInt  
+  comment       String?  @db.VarChar(500)  
+  helpful_count Int      @default(0)  
+  is_flagged    Boolean  @default(false)  
+  flag_reason   String?  @db.VarChar  
   created_at    DateTime @default(now()) @db.Timestamp
   updated_at    DateTime @updatedAt @db.Timestamp
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   recipe        Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, recipeId])  // One review per user per recipe
+  @@unique([userId, recipeId], name: "userId_recipeId")  
   @@index([userId])
   @@index([recipeId])
-  @@index([is_flagged])  // For moderation queries
-  @@index([rating])  // For sorting by rating
+  @@index([is_flagged])  
+  @@index([rating])  
 }
